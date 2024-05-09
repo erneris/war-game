@@ -49,7 +49,9 @@ class Game:
         while not self.player1.has_lost and not self.player2.has_lost:
             card1 = self.player1.deck[0].get_value()
             card2 = self.player2.deck[0].get_value()
-            break
+            if card1 > card2:
+                self.player1.deck.append(card2)
+                self.player2.deck.pop([0])
 
 def main():
     deck = Deck()
