@@ -5,6 +5,9 @@ class Card:
         self.suit = suit
         self.value = value
     
+    def get_value(self):
+        return self.value
+    
     def __repr__(self):
         return f"{self.suit} {self.value}"
 
@@ -21,10 +24,11 @@ class Deck:
         random.shuffle(self.cards)
 
     def split_deck(self):
-        print(self.cards)
         cards_for_one_player = len(self.cards) // 2
         self.deck1 = self.cards[:cards_for_one_player]
         self.deck2 = self.cards[cards_for_one_player:]
+        return self.deck1, self.deck2
+
 
     def __str__(self):
         return f"{self.cards}"
@@ -32,19 +36,20 @@ class Deck:
 class Player:
     def __init__(self):
         self.deck = []
-        has_lost = False
+        self.has_lost = False
 
 class Game:
     def __init__(self, deck):
         self.player1 = Player()
         self.player2 = Player()
         deck.split_deck()
-        self.player1.deck, self.player2.deck = 
+        self.player1.deck, self.player2.deck = deck.split_deck()
 
     def fight(self):
         while not self.player1.has_lost and not self.player2.has_lost:
-            card1 = self.player1.get_rank()
-            card2 = self.player2.deck.get_rank()
+            card1 = self.player1.deck[0].get_value()
+            card2 = self.player2.deck[0].get_value()
+            break
 
 def main():
     deck = Deck()
