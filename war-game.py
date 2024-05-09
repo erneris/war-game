@@ -23,9 +23,8 @@ class Deck:
     def split_deck(self):
         print(self.cards)
         cards_for_one_player = len(self.cards) // 2
-        deck1 = self.cards[:cards_for_one_player]
-        deck2 = self.cards[cards_for_one_player:]
-        return deck1, deck2
+        self.deck1 = self.cards[:cards_for_one_player]
+        self.deck2 = self.cards[cards_for_one_player:]
 
     def __str__(self):
         return f"{self.cards}"
@@ -39,14 +38,20 @@ class Game:
     def __init__(self, deck):
         self.player1 = Player()
         self.player2 = Player()
-        self.player1.deck, self.player2.deck = deck.split_deck()
-        print(self.player1.deck, self.player2.deck)
+        deck.split_deck()
+        self.player1.deck, self.player2.deck = 
+
+    def fight(self):
+        while not self.player1.has_lost and not self.player2.has_lost:
+            card1 = self.player1.get_rank()
+            card2 = self.player2.deck.get_rank()
 
 def main():
     deck = Deck()
     deck.shuffle_deck()
     game = Game(deck)
-
+    if input("Start the game? "):
+        game.fight()
     
 
     
