@@ -15,7 +15,7 @@ class Card:
             type = "Jack"
         else:
             type = str(self._value)
-        self.name = type + " of " + self.suit
+        self.name = type + " of " + self.suit.capitalize()
     
     @property
     def value(self):
@@ -60,27 +60,57 @@ class Game:
         deck.split_deck()
         self.player1.deck, self.player2.deck = deck.split_deck()
 
+    def war(self):
+        
+        
+
     def fight(self):
         while not self.player1.has_lost and not self.player2.has_lost:
-            card1 = self.player1.deck[0].value
-            card2 = self.player2.deck[0].value
-            if card1 > card2:
-                self.player1.deck.append(card2)
-                self.player2.deck.pop(0)
+            card1 = self.player1.deck[0]
+            card2 = self.player2.deck[0]
 
-    def show_deck(self):
-        clear()
-        print("Your deck is: ")
-        for card in self.player2.deck:
-            print(card)
+            print(f"Your card is {card1.name}")
+            print(f"Your opponents card is {card2.name}")
+
+            if card1.value > card2.value:
+                print("You take his card and put it to the back of your deck")
+                self.player1.deck.append(card2)
+                self.player1.deck.append(card1)
+                self.player2.deck.pop(0)
+                self.player1.deck.pop(0)
+                print(f"You have {len(self.player1.deck)} cards left in your deck")
+                self.prompt()
+
+            elif card1.value < card2.value:
+                print("Your opponent takes your card and puts it to the back of his deck")
+                self.player2.deck.append(card1)
+                self.player2.deck.append(card2)
+                self.player1.deck.pop(0)
+                self.player2.deck.pop(0)
+                print(f"You have {len(self.player1.deck)} cards left in your deck")
+                self.prompt()
+
+            else:
+                print("Cards are equal, war starts")
             
+            if len(self.player1.deck) <= 0:
+                self.player1.has_lost = True
+            elif len(self.player2.deck) <= 0:
+                self.player1.has_lost = True
+    
+    def prompt(self):
+        while True:
+            if isinstance(input("Press Enter to continue: "), str):
+                clear()
+                break
 
 def main():
+    clear()
     deck = Deck()
     deck.shuffle_deck()
     game = Game(deck)
-    if input("Start the game? "):
-        game.show_deck()
+    if isinstance(input("Start the game? "), str):
+        clear()
         game.fight()
 
 def clear():
