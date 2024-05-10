@@ -61,8 +61,37 @@ class Game:
         self.player1.deck, self.player2.deck = deck.split_deck()
 
     def war(self):
-        
-        
+        cards = []
+
+        while self.player1.deck[0].value == self.player2.deck[0].value:
+            card1 = self.player1.deck[0]
+            card2 = self.player2.deck[0]
+            print(f"Your card {card1} is equal to opponents {card2}, war continues")
+            cards.append(card1)
+            cards.append(card2)
+            self.player2.deck.pop(0)
+            self.player1.deck.pop(0)
+            self.prompt()
+
+
+        card1 = self.player1.deck[0]
+        card2 = self.player2.deck[0]
+        print(f"Your card is {card1.name}")
+        print(f"Your opponents card is {card2.name}")
+
+        if card1.value > card2.value:
+            for card in cards:
+                self.player1.deck.append(card)
+            print("You take all of the cards cards and put them to the back of your deck")
+            self.prompt()
+            self.fight()
+
+        else:
+            for card in cards:
+                self.player2.deck.append(card)
+            print("Your opponent takes all of the cards and puts them to the back of his deck")
+            self.prompt()
+            self.fight()        
 
     def fight(self):
         while not self.player1.has_lost and not self.player2.has_lost:
@@ -92,6 +121,8 @@ class Game:
 
             else:
                 print("Cards are equal, war starts")
+                self.prompt()
+                self.war()
             
             if len(self.player1.deck) <= 0:
                 self.player1.has_lost = True
